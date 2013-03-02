@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+    <ImageView android:id="@+id/beer_thumbnail"
+               android:src="@drawable/beer_dog_default"
+               android:contentDescription="@string/image_beer_hint"
+               android:layout_height="60dp"
+               android:layout_width="60dp"
+               android:layout_alignParentLeft="true"
+               android:paddingRight="5dp"
+               />
+
+    <TextView android:id="@+id/row_name"
+              android:textSize="22sp"
+              android:textStyle="bold"
+              android:lines="1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@id/beer_thumbnail"
+            />
+    <TextView android:id="@+id/row_brewery"
+              android:textSize="16sp"
+              android:lines="1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/row_name"
+              android:layout_toRightOf="@id/beer_thumbnail"
+            />
+
+    <ImageView android:id="@+id/deleteBeerImage"
+               android:src="@drawable/ic_content_discard"
+               android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
+               android:contentDescription="@string/delete_beer"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+            />
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ølhund</string>
+    <string name="beer">Øl</string>
+
+
+    <string name="new_beer_title">Legg inn ny øl</string>
+    <string name="new_beer_name_hint">Navn</string>
+    <string name="new_beer_snapshot_hint">Ta bilde</string>
+    <string name="new_beer_brewery_hint">Bryggeri</string>
+    <string name="new_beer_add_button">Legg til</string>
+    <string name="new_beer_update_button">Oppdater</string>
+
+    <string name="delete_beer">Slett</string>
+    <string name="image_beer_hint">Bilde</string>
+
+    <color name="white">#ffffff</color>
+</resources>

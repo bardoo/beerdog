@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/NewBeerLayout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <EditText android:id="@+id/Name"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/new_beer_name_hint"/>
+    <EditText android:id="@+id/Brewery"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/new_beer_brewery_hint"/>
+    <ImageView android:id="@+id/BeerImage"
+               android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
+               android:contentDescription="@string/image_beer_hint"/>
+    <ImageButton android:id="@+id/AddImage"
+                 android:layout_height="wrap_content"
+                 android:layout_width="fill_parent"
+                 android:src="@drawable/ic_camera"
+                 android:contentDescription="@string/new_beer_snapshot_hint"
+                 android:onClick="addSnapshot"/>
+
+    <Button android:id="@+id/SaveBeerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_beer_add_button"
+            android:onClick="addNewBeer"/>
+
+</LinearLayout>
