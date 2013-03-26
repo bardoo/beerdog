@@ -1,20 +1,20 @@
 package com.bardo.fragment;
 
+import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import com.bardo.R;
 import com.bardo.activity.EditBeerActivity;
 import com.bardo.contentprovider.BeerContentProvider;
@@ -35,8 +35,8 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         getLoaderManager().initLoader(0, null, this);
         String[] from = {BEER_NAME, BREWERY, BEER_IMAGE};
         int[] to = {R.id.row_name, R.id.row_brewery, R.id.beer_thumbnail};
-        // todo: fiks deprecated
-        cursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.beer_row, null, from, to) {
+        cursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.beer_row, null, from, to, 0) {
+
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -59,6 +59,7 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
                 return view;
             }
         };
+
         setListAdapter(cursorAdapter);
     }
 

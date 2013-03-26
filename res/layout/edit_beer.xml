@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/NewBeerLayout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/NewBeerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="12dp">
 
 
-    <EditText android:id="@+id/Name"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/new_beer_name_hint"/>
-    <EditText android:id="@+id/Brewery"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/new_beer_brewery_hint"/>
-    <ImageView android:id="@+id/BeerImage"
-               android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
-               android:contentDescription="@string/image_beer_hint"/>
-    <ImageButton android:id="@+id/AddImage"
-                 android:layout_height="wrap_content"
-                 android:layout_width="fill_parent"
-                 android:src="@drawable/ic_camera"
-                 android:contentDescription="@string/new_beer_snapshot_hint"
-                 android:onClick="addSnapshot"/>
-
-    <Button android:id="@+id/SaveBeerButton"
+    <EditText
+            android:id="@+id/Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/new_beer_add_button"
-            android:onClick="addNewBeer"/>
+            android:hint="@string/new_beer_name_hint"/>
 
-</LinearLayout>
+    <EditText
+            android:id="@+id/Brewery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_beer_brewery_hint"
+            android:layout_below="@id/Name"/>
+
+    <ImageView
+            android:id="@+id/BeerImage"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/image_beer_hint"
+            android:layout_below="@id/Brewery"
+            android:padding="5dp"/>
+
+    <ImageButton
+            android:id="@+id/AddImage"
+            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:src="@drawable/ic_camera"
+            android:contentDescription="@string/new_beer_snapshot_hint"
+            android:onClick="addSnapshot"
+            android:layout_below="@id/BeerImage"
+            android:layout_marginRight="100dp"
+            />
+
+
+    <Button
+            android:id="@+id/SaveBeerButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/new_beer_add_button"
+            android:onClick="addNewBeer"
+            android:layout_below="@id/BeerImage"
+            android:layout_toRightOf="@id/AddImage"
+            android:layout_alignParentRight="true"
+            />
+
+</RelativeLayout>
