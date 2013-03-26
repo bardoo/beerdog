@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.bardo.R;
@@ -39,36 +40,16 @@ public class EditBeerActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_beer);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
-
-        beerUri = (savedInstanceState == null) ? null : (Uri) savedInstanceState.getParcelable(BeerContentProvider.CONTENT_ITEM_TYPE);
-
         if (extras != null) {
             beerUri = extras.getParcelable(BeerContentProvider.CONTENT_ITEM_TYPE);
+        } else {
+            beerUri = (savedInstanceState == null) ? null : (Uri) savedInstanceState.getParcelable(BeerContentProvider.CONTENT_ITEM_TYPE);
         }
 
-        if (beerUri != null) {
-            EditText beerName = (EditText) findViewById(R.id.Name);
-            EditText beerBrewery = (EditText) findViewById(R.id.Brewery);
-
-            Button saveButton = (Button) findViewById(R.id.SaveBeerButton);
-            saveButton.setText(R.string.new_beer_update_button);
-
-            String[] projection = {BEER_NAME, BREWERY, BEER_IMAGE};
-            Cursor cursor = getContentResolver().query(beerUri, projection, null, null, null);
-
-            if (cursor != null) {
-                cursor.moveToFirst();
-
-                beerName.setText(cursor.getString(cursor.getColumnIndexOrThrow(BEER_NAME)));
-                beerBrewery.setText(cursor.getString(cursor.getColumnIndexOrThrow(BREWERY)));
-                String imageName = cursor.getString(cursor.getColumnIndexOrThrow(BEER_IMAGE));
-                imageUri = FileHelper.getImageUriFrom(imageName);
-
-                cursor.close();
-            }
-        }
+        loadSelectedBeer();
     }
 
     @Override
@@ -79,30 +60,6 @@ public class EditBeerActivity extends Activity {
             ImageView imageView = (ImageView) findViewById(R.id.BeerImage);
             imageView.setImageBitmap(thumbnail);
         }
-    }
-
-    private Bitmap createThumbnail(Uri location) {
-        InputStream inputStream = null;
-        Bitmap thumbnail = null;
-        try {
-            inputStream = getContentResolver().openInputStream(location);
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inScaled = true;
-            opts.inSampleSize = 16;
-            // todo: some proper scaling??
-            thumbnail = BitmapFactory.decodeStream(inputStream, null, opts);
-        } catch (FileNotFoundException e) {
-            Log.w(TAG, "Didn't find expected image at " + location);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "Something went wrong when closing the inputstream");
-                }
-            }
-        }
-        return thumbnail;
     }
 
     public void addNewBeer(View button) {
@@ -140,6 +97,67 @@ public class EditBeerActivity extends Activity {
                 // todo create thumbnail?
             } else if (resultCode == RESULT_CANCELED) {
                 imageUri = null;
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                Intent intent = new Intent(this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private Bitmap createThumbnail(Uri location) {
+        InputStream inputStream = null;
+        Bitmap thumbnail = null;
+        try {
+            inputStream = getContentResolver().openInputStream(location);
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inScaled = true;
+            opts.inSampleSize = 16;
+            // todo: some proper scaling??
+            thumbnail = BitmapFactory.decodeStream(inputStream, null, opts);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, "Didn't find expected image at " + location);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Something went wrong when closing the inputstream");
+                }
+            }
+        }
+        return thumbnail;
+    }
+
+    private void loadSelectedBeer() {
+        if (beerUri != null) {
+            EditText beerName = (EditText) findViewById(R.id.Name);
+            EditText beerBrewery = (EditText) findViewById(R.id.Brewery);
+
+            Button saveButton = (Button) findViewById(R.id.SaveBeerButton);
+            saveButton.setText(R.string.new_beer_update_button);
+
+            String[] projection = {BEER_NAME, BREWERY, BEER_IMAGE};
+            Cursor cursor = getContentResolver().query(beerUri, projection, null, null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                beerName.setText(cursor.getString(cursor.getColumnIndexOrThrow(BEER_NAME)));
+                beerBrewery.setText(cursor.getString(cursor.getColumnIndexOrThrow(BREWERY)));
+                String imageName = cursor.getString(cursor.getColumnIndexOrThrow(BEER_IMAGE));
+                imageUri = FileHelper.getImageUriFrom(imageName);
+
+                cursor.close();
             }
         }
     }

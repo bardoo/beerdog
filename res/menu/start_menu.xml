@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/addNewBeer"
-            android:icon="@drawable/ic_new_beer"
+    <item
+            android:id="@+id/searchBeer"
+            android:icon="@drawable/ic_action_search"
+            android:title="@string/search_beer"
+            android:showAsAction="always|collapseActionView"
+            android:actionViewClass="android.widget.SearchView"
+            />
+    <item
+            android:id="@+id/addNewBeer"
+            android:icon="@drawable/ic_action_new_beer"
             android:title="@string/new_beer_title"
             android:onClick="addNewBeer"
-            android:showAsAction="always"
+            android:showAsAction="always|withText"
             />
 
 </menu>

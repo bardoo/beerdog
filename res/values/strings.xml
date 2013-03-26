@@ -3,7 +3,6 @@
     <string name="app_name">beerdog</string>
     <string name="beer">Øl</string>
 
-
     <string name="new_beer_title">Legg til</string>
     <string name="new_beer_name_hint">Navn</string>
     <string name="new_beer_snapshot_hint">Ta bilde</string>
@@ -12,6 +11,7 @@
     <string name="new_beer_update_button">Oppdater</string>
 
     <string name="delete_beer">Slett</string>
+    <string name="search_beer">Søk</string>
     <string name="image_beer_hint">Bilde</string>
 
     <color name="white">#ffffff</color>

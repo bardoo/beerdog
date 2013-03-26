@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import com.bardo.R;
 
 public class StartActivity extends Activity {
@@ -20,6 +21,10 @@ public class StartActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.start_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.searchBeer).getActionView();
+        // todo: legg til lytter for søket
+
         return true;
     }
 
