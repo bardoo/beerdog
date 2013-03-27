@@ -10,7 +10,7 @@
             />
     <item
             android:id="@+id/addNewBeer"
-            android:icon="@drawable/ic_action_new_beer"
+            android:icon="@drawable/ic_action_content_new"
             android:title="@string/new_beer_title"
             android:onClick="addNewBeer"
             android:showAsAction="always|withText"
