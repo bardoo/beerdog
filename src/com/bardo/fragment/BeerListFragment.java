@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import com.bardo.R;
 import com.bardo.activity.EditBeerActivity;
+import com.bardo.activity.StartActivity;
 import com.bardo.contentprovider.BeerContentProvider;
 import com.bardo.database.BeerTableHelper;
 import com.bardo.helper.FileHelper;
@@ -27,6 +28,7 @@ import static com.bardo.database.BeerTableHelper.*;
  */
 public class BeerListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private String beerNameSortOrder = StartActivity.SORT_ORDER_ASC;
     private SimpleCursorAdapter cursorAdapter;
 
     @Override
@@ -79,9 +81,14 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         getActivity().getContentResolver().delete(uri, null, null);
     }
 
+    public void setNewSortOrderAndReload(String sortOrder) {
+        beerNameSortOrder = sortOrder;
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {BEER_ID, BEER_NAME, BREWERY, BEER_IMAGE};
-        return new CursorLoader(getActivity(), BeerContentProvider.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(getActivity(), BeerContentProvider.CONTENT_URI, projection, null, null, BEER_NAME + " " + beerNameSortOrder);
     }
 
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
