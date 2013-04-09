@@ -51,20 +51,11 @@ public class StartActivity extends Activity {
         BeerListFragment beerListFragment = (BeerListFragment) getFragmentManager().findFragmentById(R.id.beerlist);
         if (beerListFragment.getBeerNameSortOrder().equals(SORT_ORDER_ASC)) {
             beerListFragment.setBeerNameSortOrderAndReload(SORT_ORDER_DESC);
-            setSortOrderIcon(menuItem, SORT_ORDER_ASC);
+            menuItem.setIcon(R.drawable.ic_action_sort_asc);
 
         } else {
             beerListFragment.setBeerNameSortOrderAndReload(SORT_ORDER_ASC);
-            setSortOrderIcon(menuItem, SORT_ORDER_DESC);
-        }
-    }
-
-    private void setSortOrderIcon(MenuItem menuItem, String sortOrder) {
-        if (sortOrder.equals(SORT_ORDER_DESC)) {
             menuItem.setIcon(R.drawable.ic_action_sort_desc);
-        } else {
-            menuItem.setIcon(R.drawable.ic_action_sort_asc);
         }
     }
-
 }

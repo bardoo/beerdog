@@ -27,18 +27,13 @@ import static com.bardo.database.BeerTableHelper.*;
  */
 public class BeerListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String SORT_ORDER_KEY = "sortOrder";
-
-
     private String beerNameSortOrder;
     private SimpleCursorAdapter cursorAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null && savedInstanceState.containsKey(SORT_ORDER_KEY)) {
-            beerNameSortOrder = savedInstanceState.getString(SORT_ORDER_KEY);
-        } else {
+        if (beerNameSortOrder == null) {
             beerNameSortOrder = StartActivity.SORT_ORDER_ASC;
         }
     }
@@ -75,12 +70,6 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         };
 
         setListAdapter(cursorAdapter);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(SORT_ORDER_KEY, beerNameSortOrder);
     }
 
     @Override
