@@ -10,8 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -28,8 +27,21 @@ import static com.bardo.database.BeerTableHelper.*;
  */
 public class BeerListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private String beerNameSortOrder = StartActivity.SORT_ORDER_ASC;
+    private static final String SORT_ORDER_KEY = "sortOrder";
+
+
+    private String beerNameSortOrder;
     private SimpleCursorAdapter cursorAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(SORT_ORDER_KEY)) {
+            beerNameSortOrder = savedInstanceState.getString(SORT_ORDER_KEY);
+        } else {
+            beerNameSortOrder = StartActivity.SORT_ORDER_ASC;
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -66,6 +78,12 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SORT_ORDER_KEY, beerNameSortOrder);
+    }
+
+    @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
         Intent editBeerIntent = new Intent(getActivity(), EditBeerActivity.class);
@@ -81,7 +99,11 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         getActivity().getContentResolver().delete(uri, null, null);
     }
 
-    public void setNewSortOrderAndReload(String sortOrder) {
+    public String getBeerNameSortOrder() {
+        return beerNameSortOrder;
+    }
+
+    public void setBeerNameSortOrderAndReload(String sortOrder) {
         beerNameSortOrder = sortOrder;
         getLoaderManager().restartLoader(0, null, this);
     }

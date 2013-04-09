@@ -14,16 +14,26 @@ public class StartActivity extends Activity {
     public static final int NEW_BEER_REQ_CODE = 1;
     public static final String SORT_ORDER_ASC = "asc";
     public static final String SORT_ORDER_DESC = "desc";
-    private String currentBeernameSortOrder = SORT_ORDER_ASC;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        // workaround for droid bug
+        if (!isTaskRoot()) {
+            final Intent intent = getIntent();
+            final String intentAction = intent.getAction();
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) &&
+                    intentAction != null && intentAction.equals(Intent.ACTION_MAIN)) {
+                finish();
+            }
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.start_menu, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.searchBeer).getActionView();
@@ -32,23 +42,29 @@ public class StartActivity extends Activity {
         return true;
     }
 
-
     public void addNewBeer(MenuItem menuItem) {
         Intent newBeerIntent = new Intent(this, EditBeerActivity.class);
         StartActivity.this.startActivityForResult(newBeerIntent, NEW_BEER_REQ_CODE);
     }
 
     public void toggleBeernameSorting(MenuItem menuItem) {
-        if (currentBeernameSortOrder.equals(SORT_ORDER_ASC)) {
-            currentBeernameSortOrder = SORT_ORDER_DESC;
-            menuItem.setIcon(R.drawable.ic_action_sort_asc);
+        BeerListFragment beerListFragment = (BeerListFragment) getFragmentManager().findFragmentById(R.id.beerlist);
+        if (beerListFragment.getBeerNameSortOrder().equals(SORT_ORDER_ASC)) {
+            beerListFragment.setBeerNameSortOrderAndReload(SORT_ORDER_DESC);
+            setSortOrderIcon(menuItem, SORT_ORDER_ASC);
 
         } else {
-            currentBeernameSortOrder = SORT_ORDER_ASC;
-            menuItem.setIcon(R.drawable.ic_action_sort_desc);
+            beerListFragment.setBeerNameSortOrderAndReload(SORT_ORDER_ASC);
+            setSortOrderIcon(menuItem, SORT_ORDER_DESC);
         }
-        BeerListFragment beerListFragment = (BeerListFragment) getFragmentManager().findFragmentById(R.id.beerlist);
-        beerListFragment.setNewSortOrderAndReload(currentBeernameSortOrder);
+    }
+
+    private void setSortOrderIcon(MenuItem menuItem, String sortOrder) {
+        if (sortOrder.equals(SORT_ORDER_DESC)) {
+            menuItem.setIcon(R.drawable.ic_action_sort_desc);
+        } else {
+            menuItem.setIcon(R.drawable.ic_action_sort_asc);
+        }
     }
 
 }
