@@ -15,6 +15,8 @@ public class StartActivity extends Activity {
     public static final String SORT_ORDER_ASC = "asc";
     public static final String SORT_ORDER_DESC = "desc";
 
+    private BeerListFragment beerListFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,7 @@ public class StartActivity extends Activity {
                 finish();
             }
         }
+        beerListFragment = (BeerListFragment) getFragmentManager().findFragmentById(R.id.beerlist);
     }
 
     @Override
@@ -36,7 +39,18 @@ public class StartActivity extends Activity {
         getMenuInflater().inflate(R.menu.start_menu, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.searchBeer).getActionView();
-        // todo: legg til lytter for søket
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                beerListFragment.filterList(newText);
+                return false;
+            }
+        });
 
         return true;
     }
@@ -47,7 +61,6 @@ public class StartActivity extends Activity {
     }
 
     public void toggleBeernameSorting(MenuItem menuItem) {
-        BeerListFragment beerListFragment = (BeerListFragment) getFragmentManager().findFragmentById(R.id.beerlist);
         if (beerListFragment.getBeerNameSortOrder().equals(SORT_ORDER_ASC)) {
             beerListFragment.setBeerNameSortOrderAndReload(SORT_ORDER_DESC);
             menuItem.setIcon(R.drawable.ic_action_sort_asc);

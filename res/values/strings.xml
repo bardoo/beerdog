@@ -11,7 +11,7 @@
     <string name="new_beer_update_button">Oppdater</string>
 
     <string name="delete_beer">Slett</string>
-    <string name="search_beer">Søk</string>
+    <string name="search_beer">Søk på navn og bryggeri</string>
     <string name="image_beer_hint">Bilde</string>
 
     <color name="white">#ffffff</color>

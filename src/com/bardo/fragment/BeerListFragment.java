@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.*;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -29,6 +30,7 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
 
     private String beerNameSortOrder;
     private SimpleCursorAdapter cursorAdapter;
+    private CursorLoader cursorLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,13 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
             }
         };
 
+        cursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                cursorLoader.setSelection(BEER_NAME + " like '%" + constraint + "%'");
+                return cursorLoader.loadInBackground();
+            }
+        });
         setListAdapter(cursorAdapter);
     }
 
@@ -97,9 +106,14 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         getLoaderManager().restartLoader(0, null, this);
     }
 
+    public void filterList(String filterText) {
+        cursorAdapter.getFilter().filter(filterText);
+    }
+
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {BEER_ID, BEER_NAME, BREWERY, BEER_IMAGE};
-        return new CursorLoader(getActivity(), BeerContentProvider.CONTENT_URI, projection, null, null, BEER_NAME + " " + beerNameSortOrder);
+        cursorLoader = new CursorLoader(getActivity(), BeerContentProvider.CONTENT_URI, projection, null, null, BEER_NAME + " " + beerNameSortOrder);
+        return cursorLoader;
     }
 
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
