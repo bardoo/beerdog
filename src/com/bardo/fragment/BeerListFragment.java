@@ -74,7 +74,8 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         cursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
-                cursorLoader.setSelection(BEER_NAME + " like '%" + constraint + "%'");
+                String likeConstraint = " like '%" + constraint + "%'";
+                cursorLoader.setSelection(BEER_NAME + likeConstraint + " or " + BREWERY + likeConstraint);
                 return cursorLoader.loadInBackground();
             }
         });
