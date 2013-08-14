@@ -57,7 +57,8 @@ public class StartActivity extends Activity {
 
     public void addNewBeer(MenuItem menuItem) {
         Intent newBeerIntent = new Intent(this, EditBeerActivity.class);
-        StartActivity.this.startActivityForResult(newBeerIntent, NEW_BEER_REQ_CODE);
+        startActivityForResult(newBeerIntent, NEW_BEER_REQ_CODE);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     public void toggleBeernameSorting(MenuItem menuItem) {
